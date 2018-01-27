@@ -1,0 +1,1 @@
+This repo serves for preparation before OpenAPI onboarding workshop. No real production projects are stored here.
