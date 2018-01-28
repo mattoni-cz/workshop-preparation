@@ -1,0 +1,153 @@
+FORMAT: 1A
+
+# Blog CMS
+
+Simple blog content management system API allowing creation and modification of articles and their comments.
+
+# Group Articles
+
+Resources related to articles in the API.
+
+## Data Structures
+
+### ArticleMeta
++ author: Pepa (string,required) - Author of the article
++ title: My article (string,required) - Article title
++ creation_date: `2018-01-27T08:55:15` (string,required) - Timestamp when article has been created
++ updated_date: `2018-01-27T09:55:15` (string,optional) - Timestamp of article last update
++ id: 1 (number,required) - Article ID
+
+### ArticleList (ArticleMeta)
++ url: /articles/1 (string,required) - Article URL
+
+### ArticleDetail (ArticleList)
++ content: `Hello world, this is an article content` (required) - Content of the article
+
+### ArticleCreate
++ author: Pepa (string,required) - Author of the article
++ title: My article (string,required) - Article title
++ content: `Hello world, this is an article content` (required) - Content of the article
+
+### ArticleEdit
++ title: My article (string,optional) - Article title
++ content: `Hello world, this is an updated article content` (string,optional) - Content of the article
+
+### ArticleUpdated (ArticleList)
++ updated_date: `2018-01-27T09:55:15` (string,required) - Timestamp of article last update
++ content: `Hello world, this is an updated article content` (required) - Content of the article
+
+### CommentData
++ author: Martin (required) - Author of the comment
++ content: `This article is stupid.` (string,required) - Actual comment body
+
+### CommentDetail (CommentData)
++ creation_date: `2018-01-27T09:30:15` (string,required) - Timestamp when comment has been created
++ url: `/articles/1/comments/1` (string) - Comment URL
+
+
+## Articles Collection [/articles]
+
+### List All Articles [GET]
+
+Return JSON array of all articles, without actual article content.
+
++ Response 200 (application/json)
+
+    + Attributes (array[ArticleList]) 
+
+
+### Create a New Article [POST]
+
+Create your own article using JSON object containing author, title and the actual content.
+
++ author (string) - Author of the article
++ title (string) - Article title
++ content (string) - Article content
+
++ Request (application/json)
+
+    + Attributes (ArticleCreate)
+
++ Response 201 (application/json)
+
+    + Headers
+
+            Location: /articles/1
+
+    + Attributes (ArticleDetail)
+        + updated_date 
+
+
+## Article [/articles/{article_id}]
+
++ Parameters
+    + article_id (number,required) - ID of the Article in the form of an integer
+
+### View Article Detail [GET]
+
+Return JSON object with all details for given article.
+
++ Response 200 (application/json)
+
+    + Attributes (ArticleDetail)
+
+### Update Article [PUT]
+
+Update article using JSON object containing updated title and/or content.
+
++ title (string,optional) - Article title
++ content (string,optional) - Article content
+
++ Request (application/json)
+
+    + Attributes (ArticleEdit)
+
++ Response 200 (application/json)
+
+    + Attributes (ArticleUpdated)
+
+
+
+## Article Comments Collection [/articles/{article_id}/comments]
+
++ Parameters
+    + article_id (number) - ID of the Article in the form of an integer
+
+### List All Article Comments [GET]
+
+Return JSON array of all article comments.
+
++ Response 200 (application/json)
+
+    + Attributes(array[CommentDetail])
+
+### Create a New Article Comment [POST]
+
+Create your own comment using JSON object containing author and the actual comment body.
+
++ author (string) - Author of the comment
++ content (string) - Comment body
+
++ Request (application/json)
+
+    + Attributes(CommentData)
+
++ Response 201 (application/json)
+
+    + Headers
+
+            Location: /articles/1/comments/1
+
+    + Attributes(CommentDetail)
+
+## Article Comment [/articles/{article_id}/comments/{comment_id}]
+
++ Parameters
+    + article_id (number,required) - ID of the Article in the form of an integer
+    + comment_id (number,required) - ID of the Article Comment in the form of an integer. Unique for given article.
+
+### Delete [DELETE]
+
+Delete article comment.
+
++ Response 204
