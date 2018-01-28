@@ -1,0 +1,159 @@
+FORMAT: 1A
+
+# CMS
+
+CMS is simple blog content management system API allowing creation and modification of articles and their comments.
+
+# Group Articles
+
+Resources related to articles in the API.
+
+## Articles Collection [/articles]
+
+### List All Articles [GET]
+
++ Response 200 (application/json)
+
+        [
+            {
+                "author": "Pepa",
+                "title": "Muj prvni clanek",
+                "creation_date": "2018-01-27T08:55:15",
+                "url": "/articles/1"
+            }
+        ]
+
+### Create a New Article [POST]
+
+You may create your own article using this action. It takes JSON object containing author, title and the actual content.
+
++ author (string) - Author of the article
++ title (string) - Article title
++ content (string) - Article content
+
++ Request (application/json)
+
+        {
+            "author": "Pepa",
+            "title": "Muj prvni clanek",
+            "content": "Hello world, toto je muj prvni clanek"
+        }
+
++ Response 201 (application/json)
+
+    + Headers
+
+            Location: /articles/1
+
+    + Body
+
+            {
+                "author": "Pepa",
+                "title": "Muj prvni clanek",
+                "creation_date": "2018-01-27T08:55:15",
+                "url": "/articles/1"
+                "content": "Hello world, toto je muj prvni clanek"
+            }
+
+## Article [/articles/{article_id}]
+
++ Parameters
+    + article_id (number) - ID of the Article in the form of an integer
+
+### View Article Detail [GET]
+
++ Response 200 (application/json)
+
+        {
+            "author": "Pepa",
+            "title": "Muj prvni clanek",
+            "creation_date": "2018-01-27T08:55:15",
+            "updated_date": "2018-01-27T09:55:15",
+            "url": "/articles/1"
+            "content": "Hello world, toto je muj prvni clanek"       
+        }
+
+### Update Article [PUT]
+
++ author (string) - Author of the article
++ title (string) - Article title
++ content (string) - Article content
+
++ Request (application/json)
+
+        {
+            "author": "Pepa",
+            "title": "Muj prvni clanek",
+            "content": "Hello world, toto je jiz updateovany clanek"
+        }
+
++ Response 200 (application/json)
+
+   + Body
+
+            {
+                "author": "Pepa",
+                "title": "Muj prvni clanek",
+                "updated_date": "2018-01-27T09:55:15",
+                "url": "/articles/1"
+                "content": "Hello world, toto je jiz updateovany clanek"
+            }
+
+
+
+## Article Comments Collection [/articles/{article_id}/comments]
+
++ Parameters
+    + article_id (number) - ID of the Article in the form of an integer
+
+### List All Article Comments [GET]
+
++ Response 200 (application/json)
+
+        [
+            {
+                "author": "Martin",
+                "creation_date": "2018-01-27T09:30:15",
+                "url": "/articles/1/comments/1"
+                "content": "S obsahem tohoto clanku nesouhlasim"
+            }
+        ]
+
+### Create a New Article Comment [POST]
+
+You may comment an article using this action. It takes JSON object containing author and the actual comment content.
+
++ author (string) - Author of the comment
++ content (string) - Comment body
+
++ Request (application/json)
+
+        {
+            "author": "Martin",
+            "content": "S obsahem tohoto clanku nesouhlasim"
+        }
+
++ Response 201 (application/json)
+
+    + Headers
+
+            Location: /articles/1/comments/1
+
+    + Body
+
+            {
+                "author": "Martin",
+                "creation_date": "2018-01-27T09:30:15",
+                "url": "/articles/1/comments/1"
+                "content": "S obsahem tohoto clanku nesouhlasim"
+            }
+
+## Article Comment [/articles/{article_id}/comments/{comment_id}]
+
++ Parameters
+    + article_id (number) - ID of the Article in the form of an integer
+    + comment_id (number) - ID of the Article Comment in the form of an integer. Unique for given article.
+
+### Delete [DELETE]
+
++ Response 204
