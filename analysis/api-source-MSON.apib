@@ -10,14 +10,13 @@ Resources related to articles in the API.
 
 ## Data Structures
 
-### ArticleMeta
+### ArticleList
 + author: Pepa (string,required) - Author of the article
 + title: My article (string,required) - Article title
 + creation_date: `2018-01-27T08:55:15` (string,required) - Timestamp when article has been created
 + updated_date: `2018-01-27T09:55:15` (string,optional) - Timestamp of article last update
++ commentCount: 1 (number,required) - Count of article comments
 + id: 1 (number,required) - Article ID
-
-### ArticleList (ArticleMeta)
 + url: /articles/1 (string,required) - Article URL
 
 ### ArticleDetail (ArticleList)
